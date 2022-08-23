@@ -89,7 +89,9 @@ class BusinessLicenceService
         return $data;
     }
 
-    public function search(){
-        return 'l';
+    public function search($search){
+        $data = BusinessLicense::where('phone' , 'LIKE' , "%$search%")
+            ->orWhere('state' , 'LIKE' , "%$search%")->get();
+        return $data;
     }
 }

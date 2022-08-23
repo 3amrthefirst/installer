@@ -5,22 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BusinessLicense extends Model
+class WorkingDay extends Model
 {
     use HasFactory;
-
-    protected $table = 'business_licenses';
+    protected $table = "working_days";
     public $timestamps = true;
     protected $fillable = [
-        'user_id',
-        'license_number',
-        'license_img',
-        'license_type',
-        'state',
-        'license_expiration_date',
+      'user_id',
+      'day_id',
+    ];
+
+    protected $hidden =[
+        'created_at',
+        'updated_at',
     ];
 
     public function user(){
         return $this->belongsTo(User::class,'user_id');
+    }
+    public function day(){
+        return $this->belongsTo(Day::class,'day_id');
     }
 }

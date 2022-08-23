@@ -47,5 +47,9 @@ class UserController extends Controller
         $result = $this->service->destroy($id);
         return Response::successResponse($result);
     }
+    public function search(Request $request){
+        $result = $this->service->search($request->search);
+        return Response::successResponse($result);
+    }
 
 }

@@ -13,7 +13,7 @@ class UserService
 {
 
     public function index(){
-        $users = User::all();
+        $users = User::with(['Days','business_info','business_licence'])->get();
         return $users;
     }
 
@@ -43,7 +43,9 @@ class UserService
             return Response::successResponse([],"user deleted");
         }
 
-        public function search(){
-
+        public function search($search){
+            $data = User::where('name' , 'LIKE' , "%$search%")
+            ->orWhere('email' , 'LIKE' , "%$search%")->get();
+            return $data;
         }
 }

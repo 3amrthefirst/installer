@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\BusinessInfoController;
 use App\Http\Controllers\BusinessLicenseController;
+use App\Http\Controllers\workingDaysController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,8 @@ Route::group(['middleware' => 'auth:api'] , function () {
         Route::post('update/{id}' , [UserController::class,'update']);
         //update
         Route::delete('destroy/{id}' , [UserController::class,'destroy']);
+        //search
+        Route::post('search' , [UserController::class , 'search']);
     });
 
     Route::group(['prefix' => 'businessInfo'] , function(){
@@ -79,5 +82,26 @@ Route::group(['middleware' => 'auth:api'] , function () {
         Route::post('/search' , [BusinessLicenseController::class, 'search']);
     });
 
+    Route::group(['prefix' => 'workingDays'] , function(){
+        //all records
+        Route::get('/' , [workingDaysController::class , 'index']);
+        // all records in paginate
+        Route::get('paginate' , [workingDaysController::class , 'indexPaginate']);
+        //all auth user working days
+        Route::get('authUser' , [workingDaysController::class , 'indexAuthUser']);
+        // all specific day  users
+        Route::get('day/{id}', [workingDaysController::class , 'indexDay']);
+        //all specific user days
+        Route::get('user/{id}',[workingDaysController::class,'indexUser']);
+        // store
+        Route::post('create',[workingDaysController::class, 'store']);
+        //show
+        Route::get('show/{id}' , [workingDaysController::class,'show']);
+        //update
+        Route::post('update' , [workingDaysController::class,'update']);
+        //destroy
+        Route::delete('destroy/{id}',[workingDaysController::class , 'destroy']);
+        //search
+    });
 
 });
