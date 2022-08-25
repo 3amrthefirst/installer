@@ -73,4 +73,7 @@ class User extends Authenticatable
     public function Days(){
         return $this->belongsToMany(Day::class,'working_days','user_id','day_id','id','id');
     }
+    public function Adders(){
+        return $this->belongsToMany(Adder::class,'installer_adders','user_id','adder_id','id','id')->withPivot('price','unit');
+    }
 }

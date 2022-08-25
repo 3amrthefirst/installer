@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AddersController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\BusinessInfoController;
 use App\Http\Controllers\BusinessLicenseController;
+use App\Http\Controllers\installerAddersController;
 use App\Http\Controllers\workingDaysController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -103,5 +105,37 @@ Route::group(['middleware' => 'auth:api'] , function () {
         Route::delete('destroy/{id}',[workingDaysController::class , 'destroy']);
         //search
     });
+    Route::group(['prefix' => 'adders'] , function(){
+        // all adders
+        Route::get('/' , [AddersController::class , 'index']);
+        // all paginate
+        Route::get('paginate' , [AddersController::class , 'indexPaginate']);
+        // store
+        Route::post('store' , [AddersController::class , 'store']);
+        // show
+        Route::get('show/{id}' , [AddersController::class , 'show']);
+        //update
+        Route::post('update/{id}' , [AddersController::class , 'update']);
+        //destroy
+        Route::delete('destroy/{id}' , [AddersController::class , 'destroy']);
+    });
 
+       Route::group(['prefix' => 'A'] , function(){
+        // all users for adder
+        Route::get('Adders-installer' , [installerAddersController::class , 'indexAdders']);
+        // all adders for users
+        Route::get('installer-Adders' , [installerAddersController::class , 'indexInstallers']);
+        // users for one adder
+        Route::get('showAdder/{id}' , [installerAddersController::class , 'showAdder']);
+        // adders for one adder
+        Route::get('showInstaller/{id}' , [installerAddersController::class , 'showInstaller']);
+        // store
+        Route::post('store' , [installerAddersController::class , 'store']);
+        // show
+        Route::get('show/{id}' , [installerAddersController::class , 'show']);
+        //update
+        Route::post('update/{id}' , [installerAddersController::class , 'update']);
+        //destroy
+        Route::delete('destroy/{id}' , [installerAddersController::class , 'destroy']);
+    });
 });
