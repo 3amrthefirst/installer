@@ -48,7 +48,12 @@ class UserController extends Controller
         return Response::successResponse($result);
     }
     public function search(Request $request){
-        $result = $this->service->search($request->search);
+        $result = $this->service->search($request->name , $request->email);
+        return Response::successResponse($result);
+    }
+
+    public function userByState(Request $request){
+        $result = $this->service->userByState($request->state);
         return Response::successResponse($result);
     }
 

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Adders\JobsService;
+use App\Services\Jobs\JobsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
-class AddersController extends Controller
+class WorkOrderController extends Controller
 {
+    //
+
     protected $services ;
     public function __construct(JobsService $service)
     {
@@ -21,18 +23,12 @@ class AddersController extends Controller
     }
     public function indexPaginate()
     {
-       $result = $this->services->indexPaginate();
+        $result = $this->services->indexPaginate();
         return Response::successResponse($result);
     }
 
     public function store(Request $request)
     {
-        $validation = Validator::make($request->all(),[
-            'name' => 'required | string'
-        ]);
-        if ($validation -> fails()){
-            return Response::errorResponse($validation->errors());
-        }
         $result = $this->services->store($request);
         return Response::successResponse($result);
     }
@@ -40,17 +36,6 @@ class AddersController extends Controller
     public function show($id)
     {
         $result = $this->services->show($id);
-        return Response::successResponse($result);
-    }
-    public function update(Request $request, $id)
-    {
-        $validation = Validator::make($request->all(),[
-            'name' => 'string'
-        ]);
-        if ($validation -> fails()){
-            return Response::errorResponse($validation->errors());
-        }
-        $result = $this->services->update( $request , $id);
         return Response::successResponse($result);
     }
     public function destroy($id)

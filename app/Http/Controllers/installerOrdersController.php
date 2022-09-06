@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Adders\installer_OrdersService;
+use App\Services\Jobs\installer_OrdersService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-class installerAddersController extends Controller
+class installerOrdersController extends Controller
 {
     protected $services ;
     public function __construct(installer_OrdersService $service)
     {
         $this->services = $service;
     }
-    public function indexAdders()
+
+    public function indexOrders()
     {
-        $result = $this->services->indexAdders();
+        $result = $this->services->indexOrders();
         return Response::successResponse($result);
     }
+
     public function indexInstallers()
     {
         $result = $this->services->indexInstallers();
         return Response::successResponse($result);
     }
 
-    public function showAdder($id)
+    public function showOrders($id)
     {
-        $result = $this->services->showAdder($id);
+        $result = $this->services->showOrders($id);
         return Response::successResponse($result);
     }
     public function showInstaller($id)
@@ -48,9 +50,12 @@ class installerAddersController extends Controller
         return Response::successResponse($result);
     }
 
-    public function update(Request $request, $id)
-    {
-        $result = $this->services->update($request , $id);
+    public function updatePrice(Request $request , $id){
+        $result = $this->services->updatePrice($request , $id);
+        return Response::successResponse($result);
+    }
+    public function updateStatus(Request $request){
+        $result = $this->services->updateStatus($request);
         return Response::successResponse($result);
     }
 

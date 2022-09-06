@@ -3,6 +3,7 @@
 namespace App\Services\User;
 
 use App\Http\Resources\PaginationResource;
+use App\Models\BusinessLicense;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,9 +44,18 @@ class UserService
             return Response::successResponse([],"user deleted");
         }
 
-        public function search($search){
-            $data = User::where('name' , 'LIKE' , "%$search%")
-            ->orWhere('email' , 'LIKE' , "%$search%")->get();
+        public function search($name , $email){
+        $data = User::when($name, function ($q) use ($name) {
+            $q->where('name', 'like', "%$name%");
+        })->when($email, function ($q) use($email) {
+                $q->where("email", 'LIKE', "%$email%");
+            })->get();
             return $data;
+        }
+
+        public function userByState($state){
+            $find = BusinessLicense::where('state' , $state)->get();
+            $users = $find->pluck('user');
+            return $users ;
         }
 }

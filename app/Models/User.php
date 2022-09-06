@@ -65,15 +65,40 @@ class User extends Authenticatable
 
     // business info relation
     public function business_info(){
-        return $this->hasOne(BusinessInfo::class,'user_id');
+        return $this->hasOne(BusinessInfo::class,
+            'user_id');
     }
+
     public function business_licence(){
-        return $this->hasOne(BusinessLicense::class,'user_id');
+        return $this->hasOne(BusinessLicense::class,
+            'user_id');
     }
+
     public function Days(){
-        return $this->belongsToMany(Day::class,'working_days','user_id','day_id','id','id');
+        return $this->belongsToMany(Day::class,
+            'working_days',
+            'user_id',
+            'day_id',
+            'id',
+            'id');
     }
+
     public function Adders(){
-        return $this->belongsToMany(Adder::class,'installer_adders','user_id','adder_id','id','id')->withPivot('price','unit');
+        return $this->belongsToMany(Adder::class,
+            'installer_adders',
+            'user_id',
+            'adder_id',
+            'id',
+            'id')
+            ->withPivot('price','unit');
+    }
+
+    public function Orders(){
+        return $this->belongsToMany(WorkOrder::class,'installers_orders',
+            'user_id',
+            'job_id',
+            'id',
+            'id')
+            ->withPivot('price','status');
     }
 }

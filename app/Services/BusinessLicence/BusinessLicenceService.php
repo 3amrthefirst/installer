@@ -49,6 +49,10 @@ class BusinessLicenceService
         $data = BusinessLicense::findorfail($id);
         return $data ;
     }
+    public function UserbyState($state){
+        $data = BusinessLicense::where('state' , '=' , "%$state%");
+        return $data->user_id ;
+    }
 
     public function update(Request $request ,$id)
     {
