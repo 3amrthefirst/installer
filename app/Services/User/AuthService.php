@@ -3,6 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Response;
 use Laravel\Passport\TokenRepository;
@@ -12,10 +13,24 @@ class AuthService
 {
     public function register($request)
     {
+        $date_of_origination = Carbon::parse($request->date_of_origination)->format('y-m-d');
+        if ( $request->hasFile('logo_url')) {
+            $logo = $request->file('logo_url');
+            $image_name = date('YmdHi') . $logo->getClientOriginalName();
+            $logo->move(public_path('/images/businessInfo'), $image_name);
+        }
+
         $user = User::create([
+
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => $request->password,
+            'company_name' => $request->company_name,
+            'phone' => $request->phone,
+            'business_fax' => $request->business_fax,
+            "logo_url" => '/images/businessInfo/' . $image_name,
+            'address' => $request->address,
+            'date_of_origination' => $date_of_origination,
         ]);
 
         $user['token'] = $user->createToken('passport_token')->accessToken;

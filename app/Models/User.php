@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\installerOrdersObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,6 +25,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_id',
+        'company_name',
+        'phone',
+        'business_fax',
+        'logo_url',
+        'address',
+        'date_of_origination',
     ];
 
     /**
@@ -63,11 +71,14 @@ class User extends Authenticatable
         }
     }
 
-    // business info relation
-    public function business_info(){
-        return $this->hasOne(BusinessInfo::class,
-            'user_id');
+    //observer
+    protected static function boot()
+    {
+        Parent::boot();
+        User::observe(installerOrdersObserver::class);
     }
+
+
 
     public function business_licence(){
         return $this->hasOne(BusinessLicense::class,

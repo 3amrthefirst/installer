@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Adders\JobsService;
+use App\Services\Adders\AdderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class AddersController extends Controller
 {
     protected $services ;
-    public function __construct(JobsService $service)
+    public function __construct(AdderService $service)
     {
         $this->services = $service ;
     }

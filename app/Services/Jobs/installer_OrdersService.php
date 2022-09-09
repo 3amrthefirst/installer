@@ -2,6 +2,8 @@
 
 namespace App\Services\Jobs;
 
+use App\Events\JobOrderAcceptedEvent;
+use App\Events\JobOrderEvent;
 use App\Models\Adder;
 use App\Models\User;
 use App\Models\WorkOrder;
@@ -43,6 +45,9 @@ public function store(Request $request)
                     'price'    => $reqord['price'] ,
                 ] ]
             );
+            $user_id =  $reqord['user_id'];
+            $user = User::findOrFail($user_id);
+            event(new JobOrderEvent($user));
         }
     return $data ;
 }
@@ -66,11 +71,13 @@ public function updatePrice($request , $id){
     return $data ;
 }
     public function updateStatus($request ){
+
         $user = User::findOrFail($request->user_id);
         $data =  $user->Orders()->syncWithoutDetaching( [ $request->order_id  => [
-                'status'    => $request['status'] ,
+                'status'    => "1",
             ] ]
         );
+       event(new JobOrderAcceptedEvent($user));
         return $data ;
     }
 

@@ -14,7 +14,7 @@ class UserService
 {
 
     public function index(){
-        $users = User::with(['Days','business_info','business_licence'])->get();
+        $users = User::with(['Days','business_licence'])->get();
         return $users;
     }
 

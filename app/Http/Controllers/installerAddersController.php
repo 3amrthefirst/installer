@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Adders\installer_OrdersService;
+use App\Services\Adders\installer_AdderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class installerAddersController extends Controller
 {
     protected $services ;
-    public function __construct(installer_OrdersService $service)
+    public function __construct(installer_AdderService $service)
     {
         $this->services = $service;
     }
